@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class TaskServiceImpl implements TaskService {
+
 	Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class.getName());
 
 	HttpServletRequest request;
@@ -93,8 +94,8 @@ public class TaskServiceImpl implements TaskService {
 	public void deleteByTaskId(int id) {
 		logger.trace("Entered......deleteByTaskId() ");
 
-		Task task = taskRepository.findById(id)
-				.orElseThrow(() -> new MyUserNotFoundException("Task with id = " + id + " could not be deleted..."));
+		Task task = taskRepository.findById(id).orElseThrow(() -> new MyUserNotFoundException(
+				"Task with id = " + id + " could not be deleted..."));
 
 		if (taskRepository.findById(id).isPresent()) {
 			taskRepository.deleteById(id);
@@ -131,7 +132,8 @@ public class TaskServiceImpl implements TaskService {
 
 		List<Task> taskList = task.getContent();
 
-		List<TaskDto> myTaskDtoList = taskList.stream().map(this::mapToDto).collect(Collectors.toList());
+		List<TaskDto> myTaskDtoList = taskList.stream().map(this::mapToDto)
+				.collect(Collectors.toList());
 
 		TaskResponse taskResponse = new TaskResponse();
 
@@ -149,8 +151,8 @@ public class TaskServiceImpl implements TaskService {
 	public TaskDto getTaskById(int id) {
 		logger.trace("Entered.................getTaskById()");
 
-		Task task = taskRepository.findById(id)
-				.orElseThrow(() -> new TaskNotFoundException("Print drawing could not be found :("));
+		Task task = taskRepository.findById(id).orElseThrow(
+				() -> new TaskNotFoundException("Print drawing could not be found :("));
 		logger.trace("Exited...........................getTaskById()");
 		return mapToDto(task);
 	}

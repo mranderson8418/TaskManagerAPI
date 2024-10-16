@@ -39,9 +39,7 @@ public class UserServiceImpl implements MyUserService {
 	@Override
 	public MyUserDto createUser(MyUserDto myUserDto) {
 
-		// MyUser tempUser = convertMyUserDtoToMyUser(myUserDto);
-
-		MyUser newUser = new MyUser();
+		MyUser newUser = convertMyUserDtoToMyUser(myUserDto);
 
 		newUser.setPassword(passwordEncoder.encode(myUserDto.getPassword()));
 
@@ -53,29 +51,26 @@ public class UserServiceImpl implements MyUserService {
 
 		logger.trace("EXITED……………………………………registerNewUser()");
 
-		MyUserDto newMyUserDto = convertUserToDto(newUser);
+		MyUserDto newMyUserDto = mapToDto(newUser);
 
 		return newMyUserDto;
 
 	}
 
-	private MyUserDto convertUserToDto(MyUser myUser) {
-		logger.trace("ENTERED……………………………………convertUserToDto()");
+	public MyUserDto mapToDto(MyUser myUser) {
+		logger.trace("Entered...........................mapToDto()");
 
-		MyUserDto myUserDto = new MyUserDto();
+		MyUserDto newMyUserDto = new MyUserDto();
+		newMyUserDto.setId(myUser.getId());
+		newMyUserDto.setPassword(myUser.getPassword());
+		newMyUserDto.setRole(myUser.getRole());
+		newMyUserDto.setUsername(myUser.getUsername());
 
-		// ... map properties from myUser to dto
-		myUserDto.setId(myUser.getId());
-		myUserDto.setUsername(myUser.getUsername());
-		myUserDto.setPassword(myUser.getPassword());
-		myUserDto.setRole(myUser.getRole());
-
-		logger.trace("EXITED……………………………………convertUserToDto()");
-
-		return myUserDto;
+		logger.trace("Exited...........................mapToDto()");
+		return newMyUserDto;
 	}
 
-	private MyUser convertMyUserDtoToMyUser(MyUserDto myUserDto) {
+	public MyUser convertMyUserDtoToMyUser(MyUserDto myUserDto) {
 		logger.trace("ENTERED……………………………………convertMyUserDtoToMyUser()");
 
 		MyUser myUser = new MyUser();
@@ -122,7 +117,8 @@ public class UserServiceImpl implements MyUserService {
 
 		List<MyUser> myUserDtoList = myUser.getContent();
 
-		List<MyUserDto> content = myUserDtoList.stream().map(this::mapToDto).collect(Collectors.toList());
+		List<MyUserDto> content = myUserDtoList.stream().map(this::mapToDto)
+				.collect(Collectors.toList());
 
 		MyUserResponse myUserDtoResponse = new MyUserResponse();
 
@@ -146,21 +142,9 @@ public class UserServiceImpl implements MyUserService {
 		return mapToDto(myUser);
 	}
 
-	private MyUserDto mapToDto(MyUser myUser) {
-		logger.trace("Entered...........................mapToDto()");
-
-		MyUserDto newMyUserDto = new MyUserDto();
-		newMyUserDto.setId(myUser.getId());
-		newMyUserDto.setPassword(myUser.getPassword());
-		newMyUserDto.setRole(myUser.getRole());
-		newMyUserDto.setUsername(myUser.getUsername());
-
-		logger.trace("Exited...........................mapToDto()");
-		return newMyUserDto;
-	}
-
 	@Override
-	public MyUserDto updateMyUserDetail(MyUserDto myUserDtoUpdate, int id) throws MyUserNotFoundException {
+	public MyUserDto updateMyUserDetail(MyUserDto myUserDtoUpdate, int id)
+			throws MyUserNotFoundException {
 		logger.trace("Entered...........................updateMyUser()");
 
 		try {

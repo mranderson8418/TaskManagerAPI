@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html
+lang="en"
+xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+	
+	<title>List of Students</title>
+
+	<link rel="stylesheet" href="registerStyle.css">
+</head>
+<style>
+		body {
+		  font-family: sans-serif; /* Use a generic sans-serif font for a clean look */
+		  margin: 20px; /* Add some margin around the page content */
+		  color:black;
+		}
+		th, td , tbody{
+		  padding: 10px;  /* Add padding to table cells for better readability */
+	border: 2px solid #365930;
+		}
+		th {
+		  background-color:  #04aa6d; /* Set a light background color for table headers */
+		  color: #333; /* Set header text color */
+		}
+		
+		
+		button.scott-button {
+
+					display: block;
+					background-color: #04aa6d;
+		
+					padding-top: 10px;
+					padding-bottom: 10px;
+					height: auto;
+
+					border: none;
+					border-radius: 4px;
+					cursor: pointer;
+					width: 30%;
+					height:auto;
+					margin-top: 15px;
+					margin-bottom: 15px;
+				
+
+		}
+		
+		
+		button.scott-button >p>a{
+
+			text-decoration: none;
+						color: white;
+						font-size: large;
+
+			}
+		
+		
+		
+		
+</style>
+
+<body>
+	<h1>List of Users</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Username</th>
+				<th>Password</th>			
+				<th>Role</th>
+	
+
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="user : ${users}">
+			
+				<td th:text="${user.username}"></td>
+					<td th:text="${user.password}"></td>  
+				<td th:text="${user.role}"></td>  
+
+	
+			</tr>
+		</tbody>
+	</table>  
+	
+	<button class="scott-button">
+	<p><a th:href="@{/}">Return Home</a></p>
+	</button>
+
+</body>
+</html>
+
+
